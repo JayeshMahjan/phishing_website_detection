@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Professional phishing website detection tool using machine learning">
+    <title>Phishing Detector | AI-Powered Security</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Background gradient -->
+    <div class="gradient-bg"></div>
+    
+    <!-- Main Container -->
+    <div class="container">
+        
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="40" height="40" rx="8" fill="url(#gradient)"/>
+                    <path d="M20 10L12 16V24C12 27.314 15.686 30 20 30C24.314 30 28 27.314 28 24V16L20 10Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M16 20L19 23L24 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <defs>
+                        <linearGradient id="gradient" x1="0" y1="0" x2="40" y2="40">
+                            <stop offset="0%" stop-color="#667eea"/>
+                            <stop offset="100%" stop-color="#764ba2"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <h1>PhishGuard AI</h1>
+            </div>
+            <p class="subtitle">Advanced Machine Learning Protection</p>
+        </header>
+
+        <!-- Main Card -->
+        <div class="card">
+            <div class="card-header">
+                <h2>Check Website Security</h2>
+                <p>Enter any URL to analyze its safety using our AI-powered detection system</p>
+            </div>
+
+            <!-- URL Input Form -->
+            <form id="phishingForm" class="form">
+                <div class="input-group">
+                    <div class="input-icon">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10 0C4.477 0 0 4.477 0 10C0 15.523 4.477 20 10 20C15.523 20 20 15.523 20 10C20 4.477 15.523 0 10 0ZM10 18C5.589 18 2 14.411 2 10C2 5.589 5.589 2 10 2C14.411 2 18 5.589 18 10C18 14.411 14.411 18 10 18Z" fill="currentColor"/>
+                            <path d="M10 5C9.448 5 9 5.448 9 6V10C9 10.552 9.448 11 10 11C10.552 11 11 10.552 11 10V6C11 5.448 10.552 5 10 5Z" fill="currentColor"/>
+                            <path d="M10 13C9.448 13 9 13.448 9 14C9 14.552 9.448 15 10 15C10.552 15 11 14.552 11 14C11 13.448 10.552 13 10 13Z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <input 
+                        type="text" 
+                        id="urlInput" 
+                        class="url-input" 
+                        placeholder="https://example.com"
+                        autocomplete="off"
+                        spellcheck="false"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="btn-primary" id="checkButton">
+                    <span class="btn-text">Analyze URL</span>
+                    <span class="btn-loader" style="display: none;">
+                        <svg class="spinner" viewBox="0 0 50 50">
+                            <circle cx="25" cy="25" r="20" fill="none" stroke="currentColor" stroke-width="5"></circle>
+                        </svg>
+                        Analyzing...
+                    </span>
+                </button>
+            </form>
+
+            <!-- Result Section -->
+            <div id="resultSection" class="result-section" style="display: none;">
+                <div id="resultContent" class="result-content"></div>
+            </div>
+
+            <!-- Example URLs -->
+            <div class="examples">
+                <p class="examples-title">Try these examples:</p>
+                <div class="example-buttons">
+                    <button class="example-btn" data-url="https://google.com">google.com</button>
+                    <button class="example-btn" data-url="https://github.com">github.com</button>
+                    <button class="example-btn" data-url="http://192.168.1.1/login">IP Address</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="features">
+            <div class="feature-item">
+                <div class="feature-icon">⚡</div>
+                <h3>Instant Analysis</h3>
+                <p>Real-time detection in milliseconds</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">🧠</div>
+                <h3>AI-Powered</h3>
+                <p>Random Forest ML algorithm</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">🔒</div>
+                <h3>Privacy First</h3>
+                <p>No data storage or tracking</p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Built with Flask, Python, and Machine Learning</p>
+            <p class="footer-note">Model trained on 96,000+ websites</p>
+        </footer>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

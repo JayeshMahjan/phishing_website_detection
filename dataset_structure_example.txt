@@ -1,0 +1,159 @@
+================================================================================
+PHISHING DATASET - STRUCTURE EXAMPLE
+================================================================================
+
+This file explains the exact structure your CSV dataset should have.
+Your actual dataset should be named: phishing_dataset.csv
+
+================================================================================
+REQUIRED CSV STRUCTURE:
+================================================================================
+
+Your CSV file should have these columns (exact names):
+
+Column Name      | Description                          | Data Type | Values
+-----------------|--------------------------------------|-----------|------------------
+isIp             | URL contains IP address             | int       | 0 or 1
+urlLen           | Length of the URL                   | int       | Any positive int
+is@              | URL contains @ symbol               | int       | 0 or 1
+isredirect       | URL contains // in path             | int       | 0 or 1
+haveDash         | Domain contains dash (-)            | int       | 0 or 1
+domainLen        | Length of domain name               | int       | Any positive int
+nosOfSubdomain   | Number of subdomains                | int       | Any positive int
+label            | Target variable                     | int       | 0 (legit) or 1 (phishing)
+
+================================================================================
+OPTIONAL COLUMNS (will be automatically dropped by train_model.py):
+================================================================================
+
+domain           | Actual domain name                  | string    | Any domain
+ranking          | Website ranking                     | int       | Any number
+valid            | Is domain valid                     | int       | 0 or 1
+activeDuration   | How long domain has been active     | int       | Any number
+
+These columns will be dropped because they cause "data leakage" - they contain
+information that wouldn't be available in real-time prediction scenarios.
+
+================================================================================
+EXAMPLE CSV FORMAT:
+================================================================================
+
+isIp,urlLen,is@,isredirect,haveDash,domainLen,nosOfSubdomain,label
+0,23,0,0,0,10,1,0
+1,45,0,0,1,12,2,1
+0,30,1,0,0,15,1,1
+0,28,0,0,0,11,1,0
+0,67,0,1,1,25,3,1
+
+================================================================================
+WHAT EACH FEATURE MEANS:
+================================================================================
+
+1. isIp (0 or 1)
+   - 0: URL uses a domain name (e.g., google.com)
+   - 1: URL uses an IP address (e.g., 192.168.1.1)
+   - Phishing sites often use IPs to hide identity
+
+2. urlLen (positive integer)
+   - Total character count of the entire URL
+   - Example: "https://google.com" = 18 characters
+   - Phishing URLs are typically longer due to obfuscation
+
+3. is@ (0 or 1)
+   - 0: No @ symbol in URL
+   - 1: Contains @ symbol
+   - @ can hide real destination (http://trusted.com@evil.com)
+
+4. isredirect (0 or 1)
+   - 0: No double slashes (//) in the path portion
+   - 1: Has // in path (indicates potential redirect)
+   - Multiple slashes can be used for malicious redirects
+
+5. haveDash (0 or 1)
+   - 0: No dash (-) in the domain name
+   - 1: Contains dash in domain
+   - Used for brand impersonation (paypal-secure.com)
+
+6. domainLen (positive integer)
+   - Character count of just the domain portion
+   - Example: In "https://google.com/search", domainLen = 10
+   - Legitimate domains are usually short and memorable
+
+7. nosOfSubdomain (integer, typically 0-5)
+   - Count of subdomains (number of dots in domain)
+   - Example: "login.secure.bank.com" has 3 subdomains
+   - More subdomains can indicate phishing attempts
+
+8. label (0 or 1) - TARGET VARIABLE
+   - 0: Legitimate website (safe)
+   - 1: Phishing website (dangerous)
+
+================================================================================
+DATA SOURCES:
+================================================================================
+
+You can find phishing datasets from:
+
+1. Kaggle
+   - Search: "phishing website dataset"
+   - Popular: "Phishing Websites Dataset" by various authors
+
+2. UCI Machine Learning Repository
+   - Dataset: "Phishing Websites Data Set"
+   - URL: archive.ics.uci.edu/ml
+
+3. PhishTank
+   - Real-time phishing database
+   - URL: phishtank.com
+
+4. GitHub
+   - Search: "phishing dataset csv"
+   - Many researchers share preprocessed datasets
+
+================================================================================
+DATASET REQUIREMENTS:
+================================================================================
+
+✅ Minimum rows: 10,000 (for decent accuracy)
+✅ Recommended: 50,000 - 100,000 rows
+✅ Balanced classes: Try to have roughly equal legitimate/phishing samples
+✅ CSV format with headers
+✅ No missing values (or minimal missing values)
+✅ Clean data (no duplicates)
+
+================================================================================
+AFTER YOU HAVE YOUR DATASET:
+================================================================================
+
+1. Place it in the project root folder
+2. Rename it to: phishing_dataset.csv
+3. Run: python train_model.py
+4. Wait for training to complete
+5. Run: python app.py
+6. Open: http://127.0.0.1:5000
+
+================================================================================
+TROUBLESHOOTING:
+================================================================================
+
+❌ "FileNotFoundError: phishing_dataset.csv"
+   → Make sure CSV is in the same folder as train_model.py
+
+❌ "KeyError: 'label'"
+   → Your CSV must have a column named exactly "label"
+
+❌ "ValueError: columns mismatch"
+   → Check that your CSV has all required columns with correct names
+
+❌ Low accuracy (<80%)
+   → Try collecting more data or feature engineering
+   → Check for data quality issues
+
+================================================================================
+QUESTIONS?
+================================================================================
+
+Check the README.md file for more detailed instructions and explanations.
+
+Good luck with your phishing detection project! 🔐
+================================================================================
