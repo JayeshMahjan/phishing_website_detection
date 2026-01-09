@@ -34,6 +34,11 @@ def extract_features(url):
     """
     Extract security features from a URL for phishing detection.
     
+    IMPORTANT: Features must match the training dataset format!
+    - urlLen is the FULL URL length (domain + path + query)
+    - domainLen is just the domain length
+    - isredirect checks for // in PATH only (not protocol)
+    
     Args:
         url (str): The URL to analyze
     
@@ -48,30 +53,38 @@ def extract_features(url):
         parsed = urlparse(url)
         domain = parsed.netloc
         path = parsed.path
-        full_url = url.lower()
+        query = parsed.query
+        
+        # Build the full URL without protocol for length calculation
+        # This matches how the dataset stores URLs (domain + path + query)
+        url_without_protocol = domain + path
+        if query:
+            url_without_protocol += '?' + query
         
         # Feature 1: isIp - Check if URL contains an IP address instead of domain
         # Phishing sites often use IP addresses to avoid DNS tracking
         ip_pattern = re.compile(r'(\d{1,3}\.){3}\d{1,3}')
         features['isIp'] = 1 if ip_pattern.search(domain) else 0
         
-        # Feature 2: urlLen - Total length of the URL
-        # Phishing URLs are often longer due to obfuscation techniques
-        features['urlLen'] = len(url)
+        # Feature 2: urlLen - Length of FULL URL (domain + path + query)
+        # This matches the dataset format where urlLen includes the path
+        features['urlLen'] = len(url_without_protocol)
         
         # Feature 3: is@ - Check for @ symbol in URL
         # @ symbol can be used to hide the real domain (e.g., http://google.com@malicious.com)
         features['is@'] = 1 if '@' in url else 0
         
-        # Feature 4: isredirect - Check for // (redirect) in path
-        # Multiple slashes can indicate URL redirection attempts
-        features['isredirect'] = 1 if '//' in path else 0
+        # Feature 4: isredirect - Check for // in PATH only (not in protocol!)
+        # Multiple slashes in path can indicate URL redirection attempts
+        # We exclude the protocol part (https://) by checking path and query only
+        path_and_query = path + '?' + query if query else path
+        features['isredirect'] = 1 if '//' in path_and_query else 0
         
         # Feature 5: haveDash - Check for dash (-) in domain
         # Legitimate domains rarely use dashes; phishing sites use them for brand impersonation
         features['haveDash'] = 1 if '-' in domain else 0
         
-        # Feature 6: domainLen - Length of the domain name
+        # Feature 6: domainLen - Length of the domain name only
         # Longer domains may indicate suspicious activity
         features['domainLen'] = len(domain)
         
@@ -90,7 +103,7 @@ def extract_features(url):
         # Return default safe values if extraction fails
         return {
             'isIp': 0,
-            'urlLen': len(url) if url else 0,
+            'urlLen': 0,  # Domain length, not full URL
             'is@': 0,
             'isredirect': 0,
             'haveDash': 0,

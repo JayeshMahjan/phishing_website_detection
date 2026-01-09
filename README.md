@@ -142,14 +142,14 @@ The system analyzes 7 security features from any URL:
 1. **isIp** - Checks if URL uses IP address instead of domain
    - Phishing sites often use IPs to avoid DNS tracking
    
-2. **urlLen** - Total length of the URL
-   - Phishing URLs tend to be longer due to obfuscation
+2. **urlLen** - Length of the domain (not full URL)
+   - Matches dataset format where urlLen = domain length
    
 3. **is@** - Presence of @ symbol
    - Can hide real domain (e.g., `http://google.com@evil.com`)
    
-4. **isredirect** - Multiple slashes (//) in path
-   - Indicates potential redirection attacks
+4. **isredirect** - Multiple slashes (//) in path/query (not protocol)
+   - Indicates potential redirection attacks in the URL path
    
 5. **haveDash** - Dash (-) in domain name
    - Used for brand impersonation (e.g., `paypal-secure.com`)
