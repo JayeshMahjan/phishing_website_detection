@@ -4,7 +4,7 @@ A professional-grade phishing website detection application using Machine Learni
 
 ## 📋 Project Overview
 
-This application uses a **Random Forest Classifier** trained on ~96,000 websites to detect phishing URLs in real-time. The system extracts 7 key security features from URLs and provides instant analysis with confidence scores.
+This application uses a **Random Forest Classifier** trained on 20,000 balanced URLs to detect phishing websites in real-time. The system extracts 7 key security features from URLs and provides instant analysis with confidence scores.
 
 ---
 
@@ -12,6 +12,7 @@ This application uses a **Random Forest Classifier** trained on ~96,000 websites
 
 - ✅ **AI-Powered Detection** - Random Forest ML model with 95%+ accuracy
 - ⚡ **Real-Time Analysis** - Instant predictions in milliseconds
+- 🤖 **OpenAI Chatbot** - AI-powered security assistant for questions
 - 🎨 **Modern UI** - Professional dark mode interface with animations
 - 📱 **Fully Responsive** - Works on desktop, tablet, and mobile
 - 🔒 **Privacy-First** - No data storage or user tracking
@@ -39,7 +40,8 @@ phishing_detector/
 ├── train_model.py                  # ML training script
 ├── app.py                          # Flask backend
 ├── requirements.txt                # Python dependencies
-└── phishing_dataset.csv            # Training dataset (you provide)
+├── phishing_dataset.csv            # Training dataset (20K rows)
+└── README.md                       # Documentation
 ```
 
 ---
@@ -61,24 +63,9 @@ cd "phishing web detect"
 pip install -r requirements.txt
 ```
 
-### 3️⃣ Prepare Dataset
+### 3️⃣ Train Model
 
-Place your CSV dataset in the root directory as `phishing_dataset.csv`
-
-**Required CSV Columns:**
-- `isIp` - Contains IP address (0/1)
-- `urlLen` - URL length
-- `is@` - Has @ symbol (0/1)
-- `isredirect` - Has redirect // (0/1)
-- `haveDash` - Has dash in domain (0/1)
-- `domainLen` - Domain length
-- `nosOfSubdomain` - Number of subdomains
-- `label` - Target (0=Legitimate, 1=Phishing)
-
-**Optional columns (will be dropped):**
-- `domain`, `ranking`, `valid`, `activeDuration`
-
-### 4️⃣ Train Model
+The dataset is already included. Train the model:
 
 ```bash
 python train_model.py
@@ -90,15 +77,12 @@ python train_model.py
 - Feature importance analysis
 - Saved model: `model/phishing_model.pkl`
 
+
 ### 5️⃣ Run Application
 
 ```bash
 python app.py
 ```
-
-Open your browser and visit: **http://127.0.0.1:5000**
-
----
 
 ## 🧠 Why Random Forest?
 
@@ -203,6 +187,32 @@ Analyzes a URL for phishing
     "legitimacy_score": 98.5,
     "phishing_score": 1.5
   }
+}
+```
+
+### `POST /chat` (OpenAI-Powered)
+Chat with the PhishGuard AI Assistant about security and phishing
+
+**Request:**
+```json
+{
+  "message": "How can I identify phishing websites?"
+}
+```
+
+**Response:**
+```json
+{
+  "status": "success",
+  "response": "Here are some tips to identify phishing websites..."
+}
+```
+
+**Error Response (if API key not configured):**
+```json
+{
+  "status": "error",
+  "message": "OpenAI API key not configured. Please set OPENAI_API_KEY environment variable."
 }
 ```
 
@@ -318,12 +328,3 @@ to a different port (e.g., 5001)
 
 ---
 
-## 📧 Questions?
-
-This is a demonstration project showcasing ML deployment in production-like environments.
-
----
-
-**Built with ❤️ using Flask, Python, and Machine Learning**
-
-**Remember:** This tool is for educational purposes. Always use multiple security layers for real-world protection.

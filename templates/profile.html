@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - PhishGuard AI</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+</head>
+<body>
+    <!-- Background gradient -->
+    <div class="gradient-bg"></div>
+    
+    <!-- Main Container -->
+    <div class="container">
+        
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="40" height="40" rx="8" fill="url(#gradient)"/>
+                    <path d="M20 10L12 16V24C12 27.314 15.686 30 20 30C24.314 30 28 27.314 28 24V16L20 10Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M16 20L19 23L24 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <defs>
+                        <linearGradient id="gradient" x1="0" y1="0" x2="40" y2="40">
+                            <stop offset="0%" stop-color="#667eea"/>
+                            <stop offset="100%" stop-color="#764ba2"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <h1>PhishGuard AI</h1>
+            </div>
+            <p class="subtitle">Advanced Machine Learning Protection</p>
+            
+            <div class="user-menu">
+                <div class="user-info">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" fill="currentColor"/>
+                        <path d="M12 6C9.79 6 8 7.79 8 10C8 12.21 9.79 14 12 14C14.21 14 16 12.21 16 10C16 7.79 14.21 6 12 6ZM12 12C10.9 12 10 11.1 10 10C10 8.9 10.9 8 12 8C13.1 8 14 8.9 14 10C14 11.1 13.1 12 12 12Z" fill="currentColor"/>
+                        <path d="M12 14.5C9.67 14.5 7.5 15.61 6.15 17.35C6.41 18.55 7.89 19.5 9.67 19.5H14.33C16.11 19.5 17.59 18.55 17.85 17.35C16.5 15.61 14.33 14.5 12 14.5Z" fill="currentColor"/>
+                    </svg>
+                    <span>{{ request.cookies.get('username') }}</span>
+                </div>
+                <div class="user-actions">
+                    <a href="{{ url_for('home') }}" class="btn-small">Home</a>
+                    <a href="{{ url_for('logout') }}" class="btn-small btn-logout">Logout</a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages-container">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Profile Card -->
+        <div class="card profile-card">
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" fill="url(#profile-gradient)"/>
+                        <path d="M12 6C9.79 6 8 7.79 8 10C8 12.21 9.79 14 12 14C14.21 14 16 12.21 16 10C16 7.79 14.21 6 12 6ZM12 12C10.9 12 10 11.1 10 10C10 8.9 10.9 8 12 8C13.1 8 14 8.9 14 10C14 11.1 13.1 12 12 12Z" fill="white"/>
+                        <path d="M12 14.5C9.67 14.5 7.5 15.61 6.15 17.35C6.41 18.55 7.89 19.5 9.67 19.5H14.33C16.11 19.5 17.59 18.55 17.85 17.35C16.5 15.61 14.33 14.5 12 14.5Z" fill="white"/>
+                        <defs>
+                            <linearGradient id="profile-gradient" x1="0" y1="0" x2="24" y2="24">
+                                <stop offset="0%" stop-color="#667eea"/>
+                                <stop offset="100%" stop-color="#764ba2"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <div class="profile-info">
+                    <h2>{{ user.username }}</h2>
+                    <p class="profile-email">{{ user.email }}</p>
+                    <p class="profile-stats">
+                        Member since: {{ user.created_at if user.created_at else 'N/A' }}
+                        {% if user.last_login %}
+                        | Last login: {{ user.last_login }}
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Analysis Statistics -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">{{ analyses|length }}</div>
+                    <div class="stat-label">URLs Analyzed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">
+                        {% set phishing_count = analyses | selectattr('prediction', 'equalto', 'phishing') | list | length %}
+                        {{ phishing_count }}
+                    </div>
+                    <div class="stat-label">Phishing Detected</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">
+                        {% set safe_count = analyses | selectattr('prediction', 'equalto', 'safe') | list | length %}
+                        {{ safe_count }}
+                    </div>
+                    <div class="stat-label">Safe URLs</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Analysis History -->
+        <div class="card">
+            <div class="card-header">
+                <h2>Recent URL Analyses</h2>
+                <p>Your last 10 URL analysis results</p>
+            </div>
+
+            {% if analyses %}
+            <div class="analysis-history">
+                <p style="color: green; margin-bottom: 10px;">✓ Found {{ analyses|length }} analyses</p>
+                <table class="analysis-table">
+                    <thead>
+                        <tr>
+                            <th>Date & Time</th>
+                            <th>URL</th>
+                            <th>Prediction</th>
+                            <th>Confidence</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for analysis in analyses %}
+                        <tr class="analysis-row">
+                            <td class="analysis-date">
+                                {{ analysis.analyzed_at if analysis.analyzed_at else 'N/A' }}
+                            </td>
+                            <td class="analysis-url">{{ analysis.url[:60] }}{% if analysis.url|length > 60 %}...{% endif %}</td>
+                            <td>
+                                <span class="badge badge-{{ 'danger' if analysis.prediction == 'phishing' else 'success' }}">
+                                    {{ analysis.prediction|upper }}
+                                </span>
+                            </td>
+                            <td class="analysis-confidence">{{ "%.2f"|format(analysis.confidence) }}%</td>
+
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 11.5C21.0034 12.8199 20.623 14.1109 19.9 15.2C19.2463 16.2374 18.3319 17.0866 17.24 17.67C16.2066 18.2366 15.0511 18.5445 13.88 18.56H12.96L9 21V18.56H8.12001C5.35001 18.56 3 16.25 3 13.34V11.5C3 8.59 5.35001 6.28 8.12001 6.28H12.88C15.65 6.28 18 8.59 18 11.5V11.5H21V11.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <h3>No analyses yet</h3>
+                <p>Start analyzing URLs to see your history here!</p>
+                <a href="{{ url_for('home') }}" class="btn-primary" style="margin-top: 20px; display: inline-block;">
+                    Analyze Your First URL
+                </a>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Built with Flask, Python, and Machine Learning</p>
+            <p class="footer-note">Model trained on 96,000+ websites</p>
+        </footer>
+    </div>
+
+    <!-- Chatbot Button (same as index.html) -->
+    <button id="chatbotToggle" class="chatbot-toggle" title="Chat with PhishGuard AI">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21 11.5C21.0034 12.8199 20.623 14.1109 19.9 15.2C19.2463 16.2374 18.3319 17.0866 17.24 17.67C16.2066 18.2366 15.0511 18.5445 13.88 18.56H12.96L9 21V18.56H8.12001C5.35001 18.56 3 16.25 3 13.34V11.5C3 8.59 5.35001 6.28 8.12001 6.28H12.88C15.65 6.28 18 8.59 18 11.5V11.5H21V11.5Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="chatbot-badge" id="chatbotBadge" style="display: none;">0</span>
+    </button>
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

@@ -9,7 +9,7 @@ Why Random Forest?
 - Works well with mixed feature types
 - Provides feature importance insights
 - Fast prediction time (crucial for web apps)
-- No feature scaling required
+- No feature scaling re quired
 """
 
 import pandas as pd
@@ -20,9 +20,9 @@ from sklearn.metrics import accuracy_score, confusion_matrix, classification_rep
 import joblib
 import os
 
-# ===============================================
+
 # 1. LOAD AND EXPLORE DATASET
-# ===============================================
+
 print("=" * 60)
 print("PHISHING WEBSITE DETECTION - MODEL TRAINING")
 print("=" * 60)
@@ -36,9 +36,9 @@ print(f"  Total rows: {len(df):,}")
 print(f"  Total columns: {len(df.columns)}")
 print(f"\n  Columns: {list(df.columns)}")
 
-# ===============================================
+
 # 2. DATA CLEANING & PREPROCESSING
-# ===============================================
+
 print("\n[2/6] Cleaning and preprocessing data...")
 
 # Drop unsafe columns that cause data leakage
@@ -66,9 +66,9 @@ print(df['label'].value_counts())
 print(f"  Legitimate: {(df['label'] == 0).sum():,} ({(df['label'] == 0).sum() / len(df) * 100:.1f}%)")
 print(f"  Phishing:   {(df['label'] == 1).sum():,} ({(df['label'] == 1).sum() / len(df) * 100:.1f}%)")
 
-# ===============================================
+
 # 3. FEATURE ENGINEERING & SPLITTING
-# ===============================================
+
 print("\n[3/6] Splitting dataset into train/test sets...")
 
 # Separate features (X) and target (y)
@@ -88,9 +88,8 @@ X_train, X_test, y_train, y_test = train_test_split(
 print(f"✓ Training set: {len(X_train):,} samples")
 print(f"✓ Testing set:  {len(X_test):,} samples")
 
-# ===============================================
 # 4. MODEL TRAINING
-# ===============================================
+
 print("\n[4/6] Training Random Forest Classifier...")
 
 # Initialize Random Forest with optimized parameters
@@ -109,9 +108,8 @@ model.fit(X_train, y_train)
 
 print("✓ Model training completed!")
 
-# ===============================================
 # 5. MODEL EVALUATION
-# ===============================================
+
 print("\n[5/6] Evaluating model performance...")
 
 # Make predictions
@@ -126,10 +124,10 @@ print(f"{'=' * 60}")
 # Confusion Matrix
 cm = confusion_matrix(y_test, y_pred)
 print("\nConfusion Matrix:")
-print("                 Predicted")
-print("                 Legit  Phishing")
-print(f"Actual Legit     {cm[0][0]:>5}  {cm[0][1]:>8}")
-print(f"       Phishing  {cm[1][0]:>5}  {cm[1][1]:>8}")
+print(" Predicted")
+print(" Legit  Phishing")
+print(f"Actual Legit  {cm[0][0]:>5}  {cm[0][1]:>8}")
+print(f"  Phishing  {cm[1][0]:>5}  {cm[1][1]:>8}")
 
 # Classification Report
 print("\nDetailed Classification Report:")
@@ -145,9 +143,8 @@ print("\nFeature Importance:")
 for idx, row in feature_importance.iterrows():
     print(f"  {row['feature']:20s}: {row['importance']:.4f}")
 
-# ===============================================
 # 6. SAVE MODEL
-# ===============================================
+
 print("\n[6/6] Saving trained model...")
 
 # Create model directory if it doesn't exist

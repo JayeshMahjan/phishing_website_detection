@@ -13,6 +13,9 @@
     
     <!-- CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
 </head>
 <body>
     <!-- Background gradient -->
@@ -38,6 +41,29 @@
                 <h1>PhishGuard AI</h1>
             </div>
             <p class="subtitle">Advanced Machine Learning Protection</p>
+            
+            <!-- User Menu (if logged in) -->
+            {% if request.cookies.get('username') %}
+            <div class="user-menu">
+                <div class="user-info">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" fill="currentColor"/>
+                        <path d="M12 6C9.79 6 8 7.79 8 10C8 12.21 9.79 14 12 14C14.21 14 16 12.21 16 10C16 7.79 14.21 6 12 6ZM12 12C10.9 12 10 11.1 10 10C10 8.9 10.9 8 12 8C13.1 8 14 8.9 14 10C14 11.1 13.1 12 12 12Z" fill="currentColor"/>
+                        <path d="M12 14.5C9.67 14.5 7.5 15.61 6.15 17.35C6.41 18.55 7.89 19.5 9.67 19.5H14.33C16.11 19.5 17.59 18.55 17.85 17.35C16.5 15.61 14.33 14.5 12 14.5Z" fill="currentColor"/>
+                    </svg>
+                    <span>{{ request.cookies.get('username') }}</span>
+                </div>
+                <div class="user-actions">
+                    <a href="{{ url_for('profile') }}" class="btn-small">Profile</a>
+                    <a href="{{ url_for('logout') }}" class="btn-small btn-logout">Logout</a>
+                </div>
+            </div>
+            {% else %}
+            <div class="auth-buttons">
+                <a href="{{ url_for('login') }}" class="btn-small">Sign In</a>
+                <a href="{{ url_for('register') }}" class="btn-small btn-primary">Get Started</a>
+            </div>
+            {% endif %}
         </header>
 
         <!-- Main Card -->
@@ -122,6 +148,57 @@
             <p>Built with Flask, Python, and Machine Learning</p>
             <p class="footer-note">Model trained on 96,000+ websites</p>
         </footer>
+    </div>
+
+    <!-- Chatbot Button -->
+    <button id="chatbotToggle" class="chatbot-toggle" title="Chat with PhishGuard AI">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21 11.5C21.0034 12.8199 20.623 14.1109 19.9 15.2C19.2463 16.2374 18.3319 17.0866 17.24 17.67C16.2066 18.2366 15.0511 18.5445 13.88 18.56H12.96L9 21V18.56H8.12001C5.35001 18.56 3 16.25 3 13.34V11.5C3 8.59 5.35001 6.28 8.12001 6.28H12.88C15.65 6.28 18 8.59 18 11.5V11.5H21V11.5Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="chatbot-badge" id="chatbotBadge" style="display: none;">0</span>
+    </button>
+
+    <!-- Chatbot Window -->
+    <div id="chatbotWindow" class="chatbot-window" style="display: none;">
+        <div class="chatbot-header">
+            <div class="chatbot-title">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 11.5C21.0034 12.8199 20.623 14.1109 19.9 15.2C19.2463 16.2374 18.3319 17.0866 17.24 17.67C16.2066 18.2366 15.0511 18.5445 13.88 18.56H12.96L9 21V18.56H8.12001C5.35001 18.56 3 16.25 3 13.34V11.5C3 8.59 5.35001 6.28 8.12001 6.28H12.88C15.65 6.28 18 8.59 18 11.5V11.5H21V11.5Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <h3>PhishGuard Assistant</h3>
+            </div>
+            <button id="chatbotClose" class="chatbot-close" title="Close chat">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 5L5 15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M5 5L15 15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
+        
+        <div id="chatMessages" class="chat-messages">
+            <div class="message bot-message">
+                <div class="message-avatar">🤖</div>
+                <div class="message-content">
+                    <p>Hello! I'm your PhishGuard AI Assistant. Ask me anything about phishing detection, online security, or how to stay safe online!</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="chat-input-container">
+            <input 
+                type="text" 
+                id="chatInput" 
+                class="chat-input" 
+                placeholder="Type your question..."
+                autocomplete="off"
+            >
+            <button id="chatSend" class="chat-send" title="Send message">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 2L18 10L10 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 10H18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
     </div>
 
     <!-- JavaScript -->

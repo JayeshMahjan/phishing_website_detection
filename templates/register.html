@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - PhishGuard AI</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+</head>
+<body class="auth-page">
+    <!-- Background gradient -->
+    <div class="gradient-bg"></div>
+    
+    <!-- Main Container -->
+    <div class="auth-container">
+        
+        <!-- Logo Section -->
+        <div class="auth-logo">
+            <svg width="60" height="60" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="40" height="40" rx="8" fill="url(#gradient)"/>
+                <path d="M20 10L12 16V24C12 27.314 15.686 30 20 30C24.314 30 28 27.314 28 24V16L20 10Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16 20L19 23L24 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <defs>
+                    <linearGradient id="gradient" x1="0" y1="0" x2="40" y2="40">
+                        <stop offset="0%" stop-color="#667eea"/>
+                        <stop offset="100%" stop-color="#764ba2"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+            <h1>PhishGuard AI</h1>
+            <p>Advanced Machine Learning Protection</p>
+        </div>
+
+        <!-- Register Card -->
+        <div class="auth-card">
+            <div class="auth-header">
+                <h2>Create Your Account</h2>
+                <p>Join to access advanced phishing detection</p>
+            </div>
+
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-messages">
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <!-- Registration Form -->
+            <form id="registerForm" class="auth-form" method="POST" action="{{ url_for('register') }}">
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <div class="input-icon-wrapper">
+                        <svg class="input-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10 0C4.477 0 0 4.477 0 10C0 15.523 4.477 20 10 20C15.523 20 20 15.523 20 10C20 4.477 15.523 0 10 0ZM10 18C5.589 18 2 14.411 2 10C2 5.589 5.589 2 10 2C14.411 2 18 5.589 18 10C18 14.411 14.411 18 10 18Z" fill="currentColor"/>
+                            <path d="M10 5C7.239 5 5 7.239 5 10C5 12.761 7.239 15 10 15C12.761 15 15 12.761 15 10C15 7.239 12.761 5 10 5ZM10 13C8.343 13 7 11.657 7 10C7 8.343 8.343 7 10 7C11.657 7 13 8.343 13 10C13 11.657 11.657 13 10 13Z" fill="currentColor"/>
+                        </svg>
+                        <input 
+                            type="text" 
+                            id="username" 
+                            name="username"
+                            class="auth-input" 
+                            placeholder="Choose a username (min 3 characters)"
+                            autocomplete="username"
+                            minlength="3"
+                            maxlength="80"
+                            required
+                            autofocus
+                        >
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="email">Email Address</label>
+                    <div class="input-icon-wrapper">
+                        <svg class="input-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M18 2H2C0.895431 2 0 2.89543 0 4V16C0 17.1046 0.895431 18 2 18H18C19.1046 18 20 17.1046 20 16V4C20 2.89543 19.1046 2 18 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M17 4L10 10L3 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email"
+                            class="auth-input" 
+                            placeholder="your.email@example.com"
+                            autocomplete="email"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <div class="input-icon-wrapper">
+                        <svg class="input-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 8H14V6C14 3.243 11.757 1 9 1C6.243 1 4 3.243 4 6V8H3C2.448 8 2 8.448 2 9V17C2 17.552 2.448 18 3 18H15C15.552 18 16 17.552 16 17V9C16 8.448 15.552 8 15 8ZM6 6C6 4.346 7.346 3 9 3C10.654 3 12 4.346 12 6V8H6V6ZM14 16H4V10H14V16Z" fill="currentColor"/>
+                            <circle cx="9" cy="13" r="1.5" fill="currentColor"/>
+                        </svg>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password"
+                            class="auth-input" 
+                            placeholder="Create a strong password (min 8 characters)"
+                            autocomplete="new-password"
+                            minlength="8"
+                            required
+                        >
+                        <button type="button" class="password-toggle" id="togglePassword" title="Toggle password visibility">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10 4C6.5 4 3.25 6.5 1.5 10C3.25 13.5 6.5 16 10 16C13.5 16 16.75 13.5 18.5 10C16.75 6.5 13.5 4 10 4ZM10 14C7.5 14 5.33333 12.3333 4.33333 10C5.33333 7.66667 7.5 6 10 6C12.5 6 14.6667 7.66667 15.6667 10C14.6667 12.3333 12.5 14 10 14Z" fill="currentColor"/>
+                                <circle cx="10" cy="10" r="2.5" fill="currentColor"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <p class="password-strength" id="passwordStrength"></p>
+                </div>
+
+                <div class="input-group">
+                    <label for="confirm_password">Confirm Password</label>
+                    <div class="input-icon-wrapper">
+                        <svg class="input-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 8H14V6C14 3.243 11.757 1 9 1C6.243 1 4 3.243 4 6V8H3C2.448 8 2 8.448 2 9V17C2 17.552 2.448 18 3 18H15C15.552 18 16 17.552 16 17V9C16 8.448 15.552 8 15 8ZM6 6C6 4.346 7.346 3 9 3C10.654 3 12 4.346 12 6V8H6V6ZM14 16H4V10H14V16Z" fill="currentColor"/>
+                            <circle cx="9" cy="13" r="1.5" fill="currentColor"/>
+                        </svg>
+                        <input 
+                            type="password" 
+                            id="confirm_password" 
+                            name="confirm_password"
+                            class="auth-input" 
+                            placeholder="Confirm your password"
+                            autocomplete="new-password"
+                            required
+                        >
+                    </div>
+                    <p class="password-match" id="passwordMatch"></p>
+                </div>
+
+                <div class="form-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="terms" id="terms" required>
+                        <span>I agree to the <a href="#" class="auth-link">Terms of Service</a> and <a href="#" class="auth-link">Privacy Policy</a></span>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-primary btn-full">
+                    Create Account
+                </button>
+            </form>
+
+            <!-- Login Link -->
+            <div class="auth-footer">
+                <p>Already have an account? <a href="{{ url_for('login') }}" class="auth-link">Sign in</a></p>
+            </div>
+        </div>
+
+        <!-- Security Info -->
+        <div class="security-info">
+            <div class="security-item">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L3 7V12C3 17.52 6.84 22.74 12 24C17.16 22.74 21 17.52 21 12V7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12 8V12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12 16H12.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>Passwords are encrypted with bcrypt</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
